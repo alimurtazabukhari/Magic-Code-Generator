@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+public class MagicCodeGenerator {
+
+    public static int generateMagicCode(int power) {
+        int merged = 0;
+        int digits = countDigits(power);
+        int divisor = (int) Math.pow(10, digits - 1);
+
+        while (divisor > 0) {
+            int digit = power / divisor;
+            int square = digit * digit;
+            System.out.println("Square of " + digit + " is " + square);
+            merged = appendToLeft(merged, square);
+            power %= divisor;
+            divisor /= 10;
+        }
+
+        System.out.println("Merged number is " + merged);
+        int reversed = reverseNumber(merged);
+        System.out.println("Reversed number is " + reversed);
+        return reversed;
+    }
+
+    public static int countDigits(int n) {
+        int count = 0;
+        while (n > 0) {
+            count++;
+            n /= 10;
+        }
+        return count;
+    }
+
+    public static int appendToLeft(int num, int append) {
+        int factor = 1;
+        int temp = append;
+        while (temp > 0) {
+            factor *= 10;
+            temp /= 10;
+        }
+        return num * factor + append;
+    }
+
+    public static int reverseNumber(int n) {
+        int reversed = 0;
+        while (n > 0) {
+            reversed = reversed * 10 + (n % 10);
+            n /= 10;
+        }
+        return reversed;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        int power = scanner.nextInt();
+        generateMagicCode(power);
+    }
+}
